@@ -1,94 +1,70 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" id="main-html">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIMLAND | بیم‌لند - خانه بیمه هوشمند</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css');
-        :root { --dark: #0f172a; --gold: #fbbf24; }
-        body { font-family: 'Vazir', sans-serif; background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%); min-height: 100vh; color: white; overflow-x: hidden; }
-        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 40px; }
-        .lang-fixed { position: fixed; top: 25px; left: 25px; width: 45px; height: 45px; background: var(--gold); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; cursor: pointer; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .calc-fixed { position: fixed; top: 25px; right: 25px; background: var(--gold); color: #000; padding: 12px 24px; border-radius: 50px; display: flex; align-items: center; gap: 10px; font-weight: 900; z-index: 1000; transition: 0.3s; box-shadow: 0 10px 25px rgba(251, 191, 36, 0.3); }
-        .calc-fixed:hover { transform: scale(1.05); }
-        .pulse { animation: pulse-animation 2s infinite; }
-        @keyframes pulse-animation { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIMLAND | بیم‌لند - خانه بیمه هوشمند</title>
+<style>
+:root { --dark:#0f172a; --gold:#fbbf24; --white:#ffffff; }
+body { margin:0; font-family:system-ui,sans-serif; background:var(--dark); color:var(--white); display:flex; justify-content:center; align-items:center; min-height:100vh; padding:1rem; }
+.container { text-align:center; max-width:600px; width:100%; }
+h1 { font-size:4rem; margin-bottom:0.5rem; font-weight:900; }
+p.slogan { color:var(--gold); font-style:italic; margin-bottom:2rem; }
+.glass { background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); padding:2rem; border-radius:2rem; margin-bottom:2rem; }
+.tip-title { color:var(--gold); font-weight:900; letter-spacing:0.1em; margin-bottom:1rem; display:block; }
+.tip-content { font-weight:700; min-height:3rem; transition:0.5s; }
+.lang-btn { position:fixed; top:1rem; left:1rem; background:var(--gold); color:#000; border-radius:50%; width:45px; height:45px; display:flex; justify-content:center; align-items:center; font-weight:900; cursor:pointer; }
+.calc-btn { position:fixed; top:1rem; right:1rem; background:var(--gold); color:#000; padding:0.5rem 1rem; border-radius:50px; font-weight:900; cursor:pointer; }
+.clock { font-family:monospace; opacity:0.5; margin-bottom:1rem; display:block; }
+.footer { opacity:0.6; font-size:0.75rem; margin-top:2rem; }
+</style>
 </head>
-<body class="flex flex-col items-center justify-center p-6">
+<body>
+<div class="lang-btn" onclick="toggleLang()" id="lang-btn">EN</div>
+<a href="calc.html" class="calc-btn">استعلام تضمین کیفیت</a>
+<div class="container">
+<h1 id="title">بیم‌لند</h1>
+<p class="slogan" id="slogan">همراهِ هوشمندِ روزهای سخت</p>
+<div class="glass">
+<span class="clock" id="clock"></span>
+<span class="tip-title" id="tip-title">نکته کارشناسی روز</span>
+<p class="tip-content" id="tip-content">در حال تحلیل داده‌های بیمه‌ای...</p>
+</div>
+<div class="footer">
+<p>www.bimland.ir</p>
+<p>SUPPORT: 09215112568 | COMING SOON 2026</p>
+</div>
+</div>
 
-    <div class="lang-fixed" onclick="toggleLang()" id="lang-btn">EN</div>
+<script>
+const tips={fa:["در بیمه ثالث، تخفیف‌ها به پلاک جدید مالک خودرو منتقل می‌شود.","بیمه بدنه خسارت‌های سیل و زلزله را با پوشش اضافی جبران می‌کند.","مهندسان ناظر باید بیمه مسئولیت خود را پیش از تجهیز کارگاه فعال کنند."],
+en:["Third-party discounts transfer to the owner's new license plate.","Body insurance covers natural disasters with an extra clause.","Supervising engineers must activate liability before site setup."]};
 
-    <a href="calc.html" target="_blank" class="calc-fixed">
-        <i class="fas fa-file-invoice-dollar text-lg"></i>
-        <span id="calc-text">استعلام تضمین کیفیت</span>
-    </a>
+let lang='fa';
+function toggleLang(){
+lang=lang==='fa'?'en':'fa';
+document.body.dir=lang==='fa'?'rtl':'ltr';
+document.getElementById('lang-btn').innerText=lang==='fa'?'EN':'FA';
+document.getElementById('title').innerText=lang==='fa'?'بیم‌لند':'BIMLAND';
+document.getElementById('slogan').innerText=lang==='fa'?'همراهِ هوشمندِ روزهای سخت':'Your Smart Insurance Partner';
+document.getElementById('tip-title').innerText=lang==='fa'?'نکته کارشناسی روز':'Expert Daily Tip';
+showTip();
+}
 
-    <main class="text-center max-w-3xl w-full mt-20 md:mt-0">
-        <div class="mb-8">
-            <h1 class="text-7xl md:text-9xl font-black tracking-tighter text-white mb-2" id="title">بیم‌لند</h1>
-            <p class="text-xl md:text-2xl text-yellow-400 italic font-light tracking-widest" id="slogan">همراهِ هوشمندِ روزهای سخت</p>
-        </div>
+function showTip(){
+const t=tips[lang][Math.floor(Math.random()*tips[lang].length)];
+document.getElementById('tip-content').innerText=t;
+}
 
-        <div class="glass-panel p-8 md:p-12 relative overflow-hidden group">
-            <div id="clock" class="text-[10px] opacity-30 absolute top-5 left-8 font-mono tracking-widest uppercase"></div>
-            <div class="flex items-center gap-3 justify-center mb-6">
-                <span class="h-px w-10 bg-yellow-400/30"></span>
-                <span class="text-yellow-400 text-xs font-black uppercase tracking-tighter" id="tip-title">نکته کارشناسی روز</span>
-                <span class="h-px w-10 bg-yellow-400/30"></span>
-            </div>
-            <p id="tip-content" class="text-lg md:text-2xl leading-loose font-bold text-white/90 transition-all duration-500 min-h-[120px]">
-                در حال تحلیل داده‌های بیمه‌ای...
-            </p>
-        </div>
+function updateClock(){
+const now=new Date();
+document.getElementById('clock').innerText=now.toLocaleTimeString(lang==='fa'?'fa-IR':'en-US');
+}
 
-        <div class="mt-16 opacity-40 space-y-4">
-            <p class="text-sm font-black tracking-[10px] uppercase">www.bimland.ir</p>
-            <div class="flex items-center justify-center gap-6 text-xs font-bold">
-                <span>SUPPORT: 09215112568</span>
-                <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full"></span>
-                <span id="coming-soon">COMING SOON 2026</span>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        const tips = {
-            fa: ["در بیمه ثالث، تخفیف‌ها به پلاک جدید مالک خودرو منتقل می‌شود.","بیمه بدنه خسارت‌های سیل و زلزله را با پوشش اضافی جبران می‌کند.","بیمه تضمین کیفیت ساختمان ۱۰ سال عیوب اساسی سازه را پوشش می‌دهد.","مهندسان ناظر باید بیمه مسئولیت خود را پیش از تجهیز کارگاه فعال کنند.","در بیمه بدنه، کلوز نوسان قیمت برای دریافت خسارت واقعی الزامی است.","حداکثر فرصت اعلام خسارت در اکثر بیمه‌ها ۵ روز کاری است.","بیمه مسئولیت مهندسین، حوادث خارج از کارگاه را هم پوشش می‌دهد.","تخفیف عدم خسارت بیمه ثالث با فوت مالک به وراث منتقل می‌شود.","بیمه تضمین کیفیت، هزینه‌های ناشی از نشست ساختمان را جبران می‌کند.","در بیمه مسئولیت، نام تمام پیمانکاران فرعی باید قید شود.","بیمه بدنه شامل پوشش سرقت درجا برای قطعات حساس است.","مهندسان طراح در صورت خطای محاسباتی تا پایان عمر مسئول هستند.","بیمه تضمین کیفیت باعث افزایش ارزش ملک هنگام فروش می‌شود.","جریمه دیرکرد بیمه ثالث قابل بخشودگی نیست؛ تمدید به موقع الزامی است.","بیمه بدنه مازاد خسارت مالی ثالث را در تصافات سنگین جبران می‌کند.","بیمه مسئولیت مهندسین محاسب، خطاهای طراحی را پوشش می‌دهد.","تعهدات مالی بیمه ثالث هر ساله بر اساس دیه جدید افزایش می‌یابد.","بیمه تضمین کیفیت، نوعی گارانتی ۱۰ ساله برای خریداران است.","پوشش حذف فرانشیز در بیمه بدنه، سهم پرداختی شما را صفر می‌کند.","مهندسان مجری بدون بیمه مسئولیت، در معرض ریسک‌های بزرگ هستند.","بیمه تضمین کیفیت (LDB) شامل نمای ساختمان هم می‌شود.","در تصادفات زیر سقف تعهدات، بدون کروکی هم می‌توان خسارت گرفت.","بیمه بدنه برای خودروهای نامتعارف قوانین متفاوتی دارد.","بیمه مسئولیت پزشکان از ضروریات حرفه‌ای است.","در بیمه آتش‌سوزی، پوشش ضایعات برف و باران را فعال کنید.","بیمه عمر و سرمایه‌گذاری، پشتوانه‌ای عالی برای بازنشستگی است.","بیمه باربری برای حمل کالا در جاده‌های بین‌المللی الزامی است.","پوشش شکست شیشه در بیمه بدنه بدون نیاز به حادثه قابل استفاده است.","بیمه مسئولیت مدیران ساختمان برای حوادث مشاعات ضروری است.","بیم لند؛ مشاوره تخصصی برای خرید آگاهانه و اقتصادی‌ترین نرخ."],
-            en: ["Third-party discounts transfer to the owner's new license plate.","Body insurance covers natural disasters with an extra clause.","Building quality insurance covers structural defects for 10 years.","Supervising engineers must activate liability before site setup.","Price fluctuation clause is essential for real value compensation.","Most insurance claims must be reported within 5 working days.","Engineers' liability covers accidents outside the site area.","Third-party discounts transfer to legal heirs after death.","Building quality insurance compensates for structural settling.","All subcontractors should be named in the liability policy.","Partial theft cover protects sensitive parts of your vehicle.","Design engineers stay liable for calculation errors for life.","Building quality insurance increases property resale value.","Late renewal penalties for third-party insurance are mandatory.","Body insurance covers excess financial claims over limits.","Design engineers' liability covers structural design errors.","Third-party limits increase annually based on new rates.","Quality insurance acts as a 10-year warranty for buyers.","Deductible waiver in body insurance reduces your share to zero.","Execution engineers face huge risks without liability insurance.","Latent Defect Insurance (LDB) includes building facades.","Low-value accidents may not require a police report for claims.","Body insurance rules differ for luxury cars.","Medical malpractice insurance is a professional necessity.","Fire insurance should include snow and rain damage cover.","Life insurance is an excellent backup for retirement years.","Cargo insurance is vital for international transit.","Glass breakage cover can be used even without an accident.","Building managers need liability insurance for common areas.","Bimland: Expert advice for smart and economical insurance."]
-        };
-
-        let currentLang = 'fa';
-        function toggleLang() {
-            currentLang = currentLang === 'fa' ? 'en' : 'fa';
-            document.getElementById('main-html').dir = currentLang === 'fa' ? 'rtl' : 'ltr';
-            document.getElementById('lang-btn').innerText = currentLang === 'fa' ? 'EN' : 'FA';
-            document.getElementById('title').innerText = currentLang === 'fa' ? 'بیم‌لند' : 'BIMLAND';
-            document.getElementById('slogan').innerText = currentLang === 'fa' ? 'همراهِ هوشمندِ روزهای سخت' : 'Your Smart Insurance Partner';
-            document.getElementById('calc-text').innerText = currentLang === 'fa' ? 'استعلام تضمین کیفیت' : 'LDB Quotation';
-            document.getElementById('tip-title').innerText = currentLang === 'fa' ? 'نکته کارشناسی روز' : 'Expert Daily Tip';
-            document.getElementById('coming-soon').innerText = currentLang === 'fa' ? 'بزودی در سال ۱۴۰۴' : 'COMING SOON 2026';
-            showRandomTip();
-        }
-
-        function showRandomTip() {
-            const idx = Math.floor(Math.random() * tips[currentLang].length);
-            document.getElementById('tip-content').innerText = tips[currentLang][idx];
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const options = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            document.getElementById('clock').innerText = now.toLocaleTimeString(currentLang === 'fa' ? 'fa-IR' : 'en-US', options);
-        }
-
-        setInterval(updateClock, 1000);
-        setInterval(showRandomTip, 10000);
-        showRandomTip();
-        updateClock();
-    </script>
+setInterval(updateClock,1000);
+setInterval(showTip,10000);
+showTip();
+updateClock();
+</script>
 </body>
 </html>
