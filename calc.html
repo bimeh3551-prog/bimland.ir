@@ -1,114 +1,108 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بیم‌لند | استعلام آنی نرخ</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css');
-        body { font-family: 'Vazir', sans-serif; background: #f1f5f9; color: #0f172a; }
-        .input-card { border: 2px solid #e2e8f0; border-radius: 20px; transition: 0.3s; background: white; }
-        .input-card:focus-within { border-color: #fbbf24; box-shadow: 0 10px 20px -10px rgba(251,191,36,0.5); }
-        .tab-btn { flex: 1; padding: 15px; border-radius: 15px; font-weight: 900; transition: 0.4s; }
-        .tab-btn.active { background: #0f172a; color: white; box-shadow: 0 10px 20px rgba(15,23,42,0.2); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بیم‌لند | استعلام آنی نرخ</title>
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f1f5f9;color:#0f172a;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:1rem;}
+.card{background:#fff;border-radius:2rem;max-width:600px;width:100%;padding:2rem;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;}
+header h2{margin:0;font-weight:900;}
+header p{margin:0;font-size:0.7rem;color:#fbbf24;font-weight:700;letter-spacing:0.05em;}
+.inputs{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem;}
+.input-card{border:2px solid #e2e8f0;border-radius:1rem;padding:0.5rem;transition:0.3s;}
+.input-card:focus-within{border-color:#fbbf24;box-shadow:0 5px 15px rgba(251,191,36,0.5);}
+.input-card input,.input-card select{width:100%;font-weight:700;font-size:1.2rem;border:none;outline:none;background:transparent;}
+.tabs{display:flex;gap:0.5rem;margin-bottom:1rem;}
+.tab-btn{flex:1;padding:0.5rem;border-radius:1rem;font-weight:900;cursor:pointer;text-align:center;}
+.tab-btn.active{background:#0f172a;color:#fff;}
+.result{background:#0f172a;color:#fff;border-radius:1.5rem;padding:1.5rem;text-align:center;margin-bottom:2rem;}
+.result .value{font-size:2rem;font-weight:900;margin:0.5rem 0;}
+.actions{display:flex;gap:1rem;}
+.actions a, .actions button{flex:1;padding:0.75rem;border-radius:1rem;font-weight:900;text-align:center;border:none;cursor:pointer;}
+.actions a{background:#16a34a;color:#fff;text-decoration:none;}
+.actions button{background:#3b82f6;color:#fff;}
+</style>
 </head>
-<body class="p-4 md:p-10 flex items-center justify-center min-h-screen">
-    <div class="max-w-4xl w-full bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-white">
-        
-        <header class="bg-slate-900 p-8 text-white flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-yellow-400 rounded-2xl flex items-center justify-center text-slate-900 font-black text-2xl">B</div>
-                <div>
-                    <h2 class="text-xl font-black">پنل صدور بیم‌لند</h2>
-                    <p class="text-yellow-400 text-[10px] font-bold tracking-widest uppercase">Specialized LDB Calculator</p>
-                </div>
-            </div>
-            <div class="text-left" style="direction: ltr;">
-                <p class="text-[10px] opacity-50 font-bold">DIRECT CALL:</p>
-                <p class="text-xl font-black">0921 511 2568</p>
-            </div>
-        </header>
+<body>
+<div class="card">
+<header>
+<div>
+<h2>پنل صدور بیم‌لند</h2>
+<p>Specialized LDB Calculator</p>
+</div>
+<div>
+<p>DIRECT CALL:</p>
+<p>0921 511 2568</p>
+</div>
+</header>
 
-        <div class="p-8 space-y-8">
-            <div class="flex gap-3 bg-slate-100 p-2 rounded-2xl">
-                <button id="p-tab" onclick="setPhase('p')" class="tab-btn active">🏗️ حین صدور پروانه (۰.۰۴)</button>
-                <button id="c-tab" onclick="setPhase('c')" class="tab-btn text-slate-400">🔑 بهره‌برداری / پایان‌کار</button>
-            </div>
+<div class="tabs">
+<button id="p-tab" class="tab-btn active" onclick="setPhase('p')">🏗️ حین صدور پروانه (۰.۰۴)</button>
+<button id="c-tab" class="tab-btn" onclick="setPhase('c')">🔑 بهره‌برداری / پایان‌کار</button>
+</div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                    <div class="input-card p-4">
-                        <label class="text-[10px] font-black text-slate-400 block mb-2 uppercase">📏 متراژ کل زیربنا (پروانه):</label>
-                        <input type="number" id="area" oninput="run()" class="w-full text-2xl font-black outline-none" placeholder="2500">
-                    </div>
-                    <div class="input-card p-4">
-                        <label class="text-[10px] font-black text-slate-400 block mb-2 uppercase">🏢 تعداد سقف:</label>
-                        <input type="number" id="floors" oninput="run()" class="w-full text-2xl font-black outline-none" placeholder="5">
-                    </div>
-                    <div id="ageBox" class="hidden animate-bounce">
-                        <div class="input-card p-4 bg-orange-50/50 border-orange-200">
-                            <label class="text-[10px] font-black text-orange-500 block mb-2 uppercase">⏳ سن ساختمان:</label>
-                            <select id="age" onchange="run()" class="w-full font-black bg-transparent outline-none">
-                                <option value="0.06">نوساز (تا ۲ سال)</option>
-                                <option value="0.12">۳ تا ۱۰ سال</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+<div class="inputs">
+<div class="input-card">
+<label>📏 متراژ کل زیربنا (پروانه):</label>
+<input type="number" id="area" oninput="run()" placeholder="2500">
+</div>
+<div class="input-card">
+<label>🏢 تعداد سقف:</label>
+<input type="number" id="floors" oninput="run()" placeholder="5">
+</div>
+<div class="input-card" id="ageBox" style="display:none;">
+<label>⏳ سن ساختمان:</label>
+<select id="age" onchange="run()">
+<option value="0.06">نوساز (تا ۲ سال)</option>
+<option value="0.12">۳ تا ۱۰ سال</option>
+</select>
+</div>
+</div>
 
-                <div class="bg-slate-900 rounded-[2.5rem] p-10 text-center flex flex-col justify-center relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
-                    <p class="text-yellow-400 text-xs font-black mb-4 uppercase">حق‌بیمه نهایی پیشنهادی:</p>
-                    <div class="text-6xl font-black text-white mb-2 tracking-tighter" id="val">۰</div>
-                    <p class="text-sm font-bold text-slate-400 uppercase">Rial</p>
-                    <p class="text-[9px] text-slate-500 mt-8 leading-relaxed">این استعلام بر اساس تعرفه‌های مصوب بیمه مرکزی و شامل مالیات بر ارزش افزوده می‌باشد.</p>
-                </div>
-            </div>
+<div class="result">
+<p>حق‌بیمه نهایی پیشنهادی:</p>
+<p class="value" id="val">۰</p>
+<p>Rial</p>
+</div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-                <a href="tel:09215112568" class="bg-green-600 text-white py-5 rounded-[1.5rem] font-black text-center shadow-lg shadow-green-200 hover:bg-green-700 transition">
-                    <i class="fas fa-phone-alt ml-2"></i> تماس و صدور قطعی
-                </a>
-                <button onclick="sendWA()" class="bg-blue-600 text-white py-5 rounded-[1.5rem] font-black shadow-lg shadow-blue-200 hover:bg-blue-700 transition">
-                    <i class="fab fa-whatsapp ml-2"></i> ارسال استعلام هوشمند
-                </button>
-            </div>
-        </div>
-    </div>
+<div class="actions">
+<a href="tel:09215112568">📞 تماس و صدور قطعی</a>
+<button onclick="sendWA()">💬 ارسال استعلام هوشمند</button>
+</div>
+</div>
 
-    <script>
-        let mode = 'p';
-        const rates = {1:91023500, 5:112607585, 10:132433105, 16:179432143};
+<script>
+let mode='p';
+const rates={1:91023500,5:112607585,10:132433105,16:179432143};
 
-        function setPhase(m) {
-            mode = m;
-            document.getElementById('p-tab').className = m === 'p' ? 'tab-btn active' : 'tab-btn text-slate-400';
-            document.getElementById('c-tab').className = m === 'c' ? 'tab-btn active' : 'tab-btn text-slate-400';
-            document.getElementById('ageBox').classList.toggle('hidden', m === 'p');
-            run();
-        }
+function setPhase(m){
+mode=m;
+document.getElementById('p-tab').className=m==='p'?'tab-btn active':'tab-btn';
+document.getElementById('c-tab').className=m==='c'?'tab-btn active':'tab-btn';
+document.getElementById('ageBox').style.display=m==='c'?'block':'none';
+run();
+}
 
-        function run() {
-            const a = parseFloat(document.getElementById('area').value) || 0;
-            const f = parseInt(document.getElementById('floors').value) || 0;
-            if(a > 0 && f > 0) {
-                const base = f <= 4 ? rates[1] : (f <= 9 ? rates[5] : (f <= 15 ? rates[10] : rates[16]));
-                const pct = mode === 'p' ? 0.04 : parseFloat(document.getElementById('age').value);
-                const res = (a * base * (pct / 100)) * 1.10;
-                document.getElementById('val').innerText = Math.round(res).toLocaleString('fa-IR');
-            } else { document.getElementById('val').innerText = '۰'; }
-        }
+function run(){
+const a=parseFloat(document.getElementById('area').value)||0;
+const f=parseInt(document.getElementById('floors').value)||0;
+if(a>0&&f>0){
+const base=f<=4?rates[1]:(f<=9?rates[5]:(f<=15?rates[10]:rates[16]));
+const pct=mode==='p'?0.04:parseFloat(document.getElementById('age').value);
+const res=(a*base*(pct/100))*1.10;
+document.getElementById('val').innerText=Math.round(res).toLocaleString('fa-IR');
+}else{document.getElementById('val').innerText='۰';}
+}
 
-        function sendWA() {
-            const a = document.getElementById('area').value;
-            const v = document.getElementById('val').innerText;
-            if(!a || v === '۰') return alert('ابتدا متراژ را وارد کنید');
-            const msg = `🏢 *استعلام اختصاصی بیم‌لند*\n\n🔹 نوع: ${mode==='p'?'حین پروانه':'بهره‌برداری'}\n🔹 متراژ: ${a} متر\n💰 مبلغ نهایی: ${v} ریال\n\n✅ جهت صدور مدارک را ارسال فرمایید.\n📞 09215112568`;
-            window.open(`https://wa.me/989215112568?text=${encodeURIComponent(msg)}`);
-        }
-    </script>
+function sendWA(){
+const a=document.getElementById('area').value;
+const v=document.getElementById('val').innerText;
+if(!a||v==='۰'){return alert('ابتدا متراژ را وارد کنید');}
+const msg=`🏢 *استعلام اختصاصی بیم‌لند*\n\n🔹 نوع: ${mode==='p'?'حین پروانه':'بهره‌برداری'}\n🔹 متراژ: ${a} متر\n💰 مبلغ نهایی: ${v} ریال\n\n✅ جهت صدور مدارک را ارسال فرمایید.\n📞 09215112568`;
+window.open(`https://wa.me/989215112568?text=${encodeURIComponent(msg)}`);
+}
+</script>
 </body>
 </html>
